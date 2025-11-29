@@ -10,7 +10,7 @@ ubctl = "unbound-control -c /var/unbound/unbound.conf"
 hints = [
     "tail -1000f /var/log/resolver/latest.log | fgrep always_refuse",
     """tail -10000f /var/log/resolver/latest.log | awk -v FS='always_refuse ' 'NF==2 {print $2}' | awk '{print $2, $3, $4}'""",
-    "nmap -sn -n 192.168.0.0/24",
+    "nmap -sn -n 192.168.54.0/24",
 ]
 etc_dir = os.path.join(os.path.dirname(sys.argv[0]), "..", "etc")
 allow_word = "always_transparent"
@@ -71,7 +71,7 @@ def show(verbose=False):
 def reload():
     bundle = exec_ubctl("reload")
     if bundle["rc"] != 0 or bundle["err"]:
-        print(colorize(f"ERROR: (rc: {bundle['rc']}) {bundle['err']}", "yellow"))
+        print(colorize(f"ERROR: (rc: {bundle['rc']}) {bundle['err']}", "red"))
         return
     print(colorize(bundle["out"].rstrip(), "green"))
 
@@ -89,7 +89,7 @@ def load(config):  # eg. "ahwii"
             zone = line.split("#")[0].strip()
             local_zones_input.append(f"{zone} {deny_word}")
     else:
-        print(colorize(f"ERROR: no {deny_name} found", "yellow"))
+        print(colorize(f"ERROR: no {deny_name} found", "red"))
         return
 
     allow_name = os.path.join(etc_dir, f"{config}.allow.zone")
@@ -102,7 +102,7 @@ def load(config):  # eg. "ahwii"
             zone = line.split("#")[0].strip()
             local_zones_input.append(f"{zone} {allow_word}")
     else:
-        print(colorize(f"ERROR: no {allow_name} found", "yellow"))
+        print(colorize(f"ERROR: no {allow_name} found", "red"))
         return
 
     local_zones_input = "\n".join(local_zones_input) + "\n"
