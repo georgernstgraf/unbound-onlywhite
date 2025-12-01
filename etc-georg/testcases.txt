@@ -10,6 +10,7 @@
 - dns.google.com
 - cloudflare-dns.com
 + prisma.io
++ registry.npmjs.org
 + developer.mozilla.org
 + www.prisma.io
 + getbootstrap.com

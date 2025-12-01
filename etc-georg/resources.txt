@@ -1,3 +1,4 @@
+registry.npmjs.org
 getbootstrap.com
 validator.w3.org
 www.ecosia.org
